@@ -30,6 +30,9 @@ app.use('/users', userAuth);
 app.use('/users', mailer);
 app.use('/users', forgetPassword);
 
+app.use("/", (req, res) => {
+  res.send("hello")
+})
 
 
 
