@@ -1,11 +1,13 @@
 let express = require("express");
 let router = express.Router();
 let Joi = require("@hapi/joi");
-let User = require("../../models/user");
+let User = require("../../models/userModel");
 let bcrypt = require("bcrypt");
 
 let jwt = require("jsonwebtoken");
 
+
+//user register
 router.post("/signup", async (req, res) => {
     let user = await User.userModel.findOne({
         "UserLogin.EmailId": req.body.UserLogin.EmailId
@@ -15,9 +17,9 @@ router.post("/signup", async (req, res) => {
     }
 
     const newuser = new User.userModel(req.body);
-    let salt = await bcryt.genSalt(10);
+    let salt = await bcrypt.genSalt(10);
     // @ts-ignore
-    newuser.UserLogin.password = await bcryt.hash(
+    newuser.UserLogin.password = await bcrypt.hash(
         // @ts-ignore
         newuser.UserLogin.password,
         salt
@@ -25,6 +27,7 @@ router.post("/signup", async (req, res) => {
     let data = await newuser.save();
     res.send({ message: "Thank You", d: data });
 });
+//user login
 router.post("/login", async (req, res) => {
     let { error } = AuthValidation(req.body);
     if (error) {

@@ -1,3 +1,4 @@
+require("dotenv").config();
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -8,7 +9,9 @@ var mongoose = require("mongoose")
 
 var app = express();
 
-var userRoute = require("./routes/auth/auth")
+var userAuth = require("./routes/auth/Userauth")
+var forgetPassword = require("./routes/forget.password")
+var mailer = require("./routes/mailer")
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -21,8 +24,13 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-app.use('/users', userRoute);
-// app.use('/users', authUser);
+
+//All API
+app.use('/users', userAuth);
+app.use('/users', mailer);
+app.use('/users', forgetPassword);
+
+
 
 
 // catch 404 and forward to error handler
@@ -54,7 +62,7 @@ app.listen(PORT, () => {
 
 
 //databse connection
-mongoose.connect("mongodb://localhost/marketPlace", {
+mongoose.connect(process.env.DATABASE, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true

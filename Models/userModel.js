@@ -2,6 +2,8 @@ let mongoose = require("mongoose");
 let joi = require("@hapi/joi");
 let config = require("config");
 let jwt = require("jsonwebtoken");
+
+//user schema model
 let userSchema = new mongoose.Schema({
   FirstName: { type: String, min: 3, max: 250, alphanum: true, trim: true },
   LastName: { type: String, min: 4, max: 250, alphanum: true, trim: true },

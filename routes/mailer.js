@@ -1,7 +1,7 @@
 let express = require("express");
 let router = express.Router();
 let nodemailer = require("nodemailer");
-let User = require("../dbModel/user");
+let User = require("../models/userModel");
 let crypto = require("crypto");
 router.post("/nodemailer", async (req, res) => {
   let user = await User.userModel.findOne({
@@ -23,7 +23,7 @@ router.post("/nodemailer", async (req, res) => {
     secure: true, // true for 465, false for other ports
 
     auth: {
-      user: "dalviharshal7797@gmail.com", // generated ethereal user
+      user: "dalviharshal7797@gmail.com", // generated ewthereal user
       pass: "7039271020" // generated ethereal password
     },
     tls: { rejectUnauthorized: false },
@@ -41,7 +41,7 @@ router.post("/nodemailer", async (req, res) => {
     to: user.UserLogin.EmailId, // list of receivers
     subject: "Reset Your Password", // Subject line:smile:
     text:
-      "open this link to change your password http://localhost:4600/api/forgetpassword/" +
+      "open this link to change your password http://localhost:5000/users/forgetpassword/" +
       token // plain text body
   };
   //http://localhost:3000/forgotpassword
